@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <h2>Articles</h2>
+    <ol>
+      <li v-for="article of articles" :key="article.doi">
+        <router-link :to="article.path">{{ article.title }}</router-link>
+      </li>
+    </ol>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import articles from "@/assets/data";
 
 export default {
   name: "home",
-  components: {
-    HelloWorld
-  }
+  computed: {
+    articles: () =>
+      articles.map((article) => ({
+        title: article.title,
+        path: `${article.doi}/${
+          article.revisions.slice(-1)[0].revision_number
+        }`,
+      })),
+  },
 };
 </script>

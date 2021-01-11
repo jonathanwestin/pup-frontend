@@ -12,9 +12,9 @@
           </div>
           <div>
             Revision:
-            <span class="meta-value">{{
-              article.revisions.slice(-1)[0].revision_number
-            }}</span>
+            <span class="meta-value">
+              {{ article.revisions.slice(-1)[0].revision_number }}
+            </span>
           </div>
         </div>
 
