@@ -5,20 +5,38 @@
 </template>
 
 <style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+html {
+  font-size: 20px;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+body {
+  color: black;
+  background: rgb(234, 234, 231);
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-weight: 300;
+  line-height: 1.3;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 100;
+  line-height: 1;
+}
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 1.75rem;
+}
+a,
+a:hover {
+  color: #368fa5;
+  text-decoration: none;
+}
+.container {
+  width: 80%;
+  margin: auto;
 }
 </style>
