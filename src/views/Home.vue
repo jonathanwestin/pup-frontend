@@ -3,25 +3,41 @@
     <h2>Articles</h2>
     <ol>
       <li v-for="article of articles" :key="article.doi">
-        <router-link :to="article.path">{{ article.title }}</router-link>
+        <router-link :to="articlePath(article)">
+          {{ article.title }}
+        </router-link>
       </li>
     </ol>
+    <h2>Data</h2>
+    <json-viewer>
+      <script type="application/json">
+        {{ dataJson }}
+      </script>
+    </json-viewer>
   </div>
 </template>
 
 <script>
 import articles from "@/assets/data";
+import "@power-elements/json-viewer";
 
 export default {
-  name: "home",
+  name: "Home",
   computed: {
-    articles: () =>
-      articles.map((article) => ({
-        title: article.title,
-        path: `${article.doi}/${
-          article.revisions.slice(-1)[0].revision_number
-        }`,
-      })),
+    articles: () => articles,
+    dataJson: () => JSON.stringify(articles, null, 2),
+  },
+  methods: {
+    articlePath(article) {
+      return `${article.doi}/${article.revisions.slice(-1)[0].revision_number}`;
+    },
   },
 };
 </script>
+
+<style scoped>
+json-viewer {
+  font-size: 0.75rem;
+  overflow-x: scroll;
+}
+</style>
