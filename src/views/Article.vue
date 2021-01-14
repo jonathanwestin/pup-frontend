@@ -1,5 +1,5 @@
 <template>
-  <article class="full-article">
+  <article v-if="article" class="full-article">
     <header class="article-header">
       <div class="container">
         <div class="article-mainmeta">
@@ -11,12 +11,14 @@
           </div>
           <div>
             Publication date:
-            <span class="meta-value">{{ article.publication_date }}</span>
+            <span class="meta-value">{{
+              article.published_at.slice(0, 10)
+            }}</span>
           </div>
           <div>
             Revision:
             <span class="meta-value">
-              {{ article.revisions.slice(-1)[0].revision_number }}
+              {{ article.revision }}
             </span>
           </div>
         </div>
@@ -28,11 +30,13 @@
           <div
             class="author"
             v-for="author of article.authors"
-            :key="author.name.join()"
+            :key="author._id"
           >
-            <div class="author-name">{{ author.name.join(" ") }}</div>
+            <div class="author-name">
+              {{ [author.person.firstname, author.person.lastname].join(" ") }}
+            </div>
             <div class="author-affiliation">
-              {{ author.affiliation.join(", ") }}
+              {{ author.institution.title }}
             </div>
           </div>
         </div>
@@ -43,8 +47,8 @@
       <p>{{ article.summary }}</p>
       <div class="article-keywords">
         Keywords:
-        <span v-for="(keyword, i) in article.keywords" :key="keyword"
-          ><span class="meta-value">{{ keyword }}</span
+        <span v-for="(keyword, i) in article.keywords" :key="keyword._id"
+          ><span class="meta-value">{{ keyword.label }}</span
           ><template v-if="i < article.keywords.length - 1">, </template>
         </span>
       </div>
@@ -60,34 +64,45 @@
           <a :href="`#${section.label}`">{{ section.label }}</a>
         </div>
         <figure v-if="section.media" class="content-media">
-          <img
-            v-if="section.media.type == 'image'"
-            :src="section.media.url"
-            class="media-visual"
-          />
-          <div v-if="section.media.type == 'images'" class="gallery">
-            <img
-              v-for="url of section.media.urls"
-              :key="url"
-              :src="url"
-              class="media-visual"
-            />
+          <div :class="{ gallery: section.media.length > 1 }">
+            <div
+              v-for="media of section.media"
+              :key="media._id"
+              class="media-item"
+            >
+              <img
+                v-if="media.mime.split('/')[0] == 'image'"
+                :src="
+                  media.url.slice(0, 4) === 'http'
+                    ? media.url
+                    : `http://localhost:1337${media.url}`
+                "
+                class="media-visual"
+              />
+              <video
+                v-if="media.mime.split('/')[0] == 'video'"
+                playsinline
+                controls
+                class="media-visual"
+              >
+                <source
+                  :src="
+                    media.url.slice(0, 4) === 'http'
+                      ? media.url
+                      : `http://localhost:1337${media.url}`
+                  "
+                  :type="media.mime"
+                />
+              </video>
+            </div>
           </div>
-          <video
-            v-if="section.media.type == 'video'"
-            playsinline
-            controls
-            class="media-visual"
-          >
-            <source :src="section.media.url" type="video/mp4" />
-          </video>
           <div
-            v-if="section.media.caption"
+            v-if="section.caption"
             class="media-caption"
-            v-html="section.media.caption"
+            v-html="section.caption"
           />
-          <div v-if="section.media.rights" class="media-rights">
-            Rights: {{ section.media.rights }}
+          <div v-if="section.rights" class="media-rights">
+            Rights: {{ section.rights }}
           </div>
         </figure>
         <div
@@ -108,10 +123,10 @@
       <div class="references-list">
         <div
           v-for="reference in article.references"
-          :key="reference"
+          :key="reference._id"
           class="references-item"
         >
-          {{ reference }}
+          {{ reference.text }}
         </div>
 
         <div
@@ -133,20 +148,26 @@
 
 <script>
 import { getArticle } from "../assets/api";
+
 export default {
   name: "Article",
   props: {
     doiPrefix: String,
     doiSuffix: String,
-    version: String,
+    revision: String,
+  },
+  data() {
+    return {
+      article: null,
+    };
   },
   computed: {
     doi() {
       return `${this.doiPrefix}/${this.doiSuffix}`;
     },
-    article() {
-      return getArticle(this.doi);
-    },
+  },
+  async created() {
+    this.article = await getArticle(this.doi, this.revision);
   },
 };
 </script>
@@ -234,9 +255,12 @@ export default {
     text-align: right;
     position: relative;
 
-    .media-visual {
-      max-width: 100%;
+    .media-item {
       margin-bottom: 0.5rem;
+
+      .media-visual {
+        max-width: 100%;
+      }
     }
 
     .gallery {
@@ -245,13 +269,13 @@ export default {
       margin-right: -15px;
       flex-direction: row-reverse;
 
-      .media-visual {
-        display: block;
-        // flex: 1;
+      .media-item {
         width: calc(50% - 15px);
-        // max-width: 15rem;
-        // min-width: 10rem;
         margin: 0 15px 15px 0;
+
+        .media-visual {
+          display: block;
+        }
       }
     }
 

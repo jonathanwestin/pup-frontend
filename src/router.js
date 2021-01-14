@@ -12,13 +12,13 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home,
+      component: Home
     },
     {
-      path: "/:doiPrefix/:doiSuffix/:version",
+      path: "/:doiPrefix/:doiSuffix/:revision",
       name: "article",
       component: Article,
-      props: true,
+      props: true
     },
     {
       path: "/about",
@@ -27,7 +27,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue"),
-    },
-  ],
+        import(/* webpackChunkName: "about" */ "./views/About.vue")
+    }
+  ]
 });
