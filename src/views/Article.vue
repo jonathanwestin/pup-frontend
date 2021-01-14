@@ -4,7 +4,10 @@
       <div class="container">
         <div class="article-mainmeta">
           <div>
-            DOI: <a :href="$route.path" class="meta-value">{{ article.doi }}</a>
+            DOI:
+            <router-link :to="$route.path" class="meta-value">
+              {{ article.doi }}
+            </router-link>
           </div>
           <div>
             Publication date:
@@ -129,7 +132,7 @@
 </template>
 
 <script>
-import articles from "@/assets/data";
+import { getArticle } from "../assets/api";
 export default {
   name: "Article",
   props: {
@@ -142,7 +145,7 @@ export default {
       return `${this.doiPrefix}/${this.doiSuffix}`;
     },
     article() {
-      return articles.find((article) => article.doi == this.doi);
+      return getArticle(this.doi);
     },
   },
 };

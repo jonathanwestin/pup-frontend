@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy-demo": "PUBLIC_PATH='/arild/cdh/pupfe/' yarn build && rsync -az dist/ demo:htdocs/cdh/pupfe/"
   },
   "dependencies": {
     "@power-elements/json-viewer": "^2.1.1",

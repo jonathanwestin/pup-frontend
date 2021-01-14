@@ -18,14 +18,14 @@
 </template>
 
 <script>
-import articles from "@/assets/data";
+import { getArticles } from "@/assets/api";
 import "@power-elements/json-viewer";
 
 export default {
   name: "Home",
   computed: {
-    articles: () => articles,
-    dataJson: () => JSON.stringify(articles, null, 2),
+    articles: () => getArticles(),
+    dataJson: () => JSON.stringify(getArticles(), null, 2),
   },
   methods: {
     articlePath(article) {
