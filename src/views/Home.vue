@@ -23,13 +23,22 @@ import "@power-elements/json-viewer";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      articles: null,
+    };
+  },
   computed: {
-    articles: () => getArticles(),
-    dataJson: () => JSON.stringify(getArticles(), null, 2),
+    dataJson() {
+      return JSON.stringify(this.articles, null, 2);
+    },
+  },
+  async created() {
+    this.articles = await getArticles();
   },
   methods: {
     articlePath(article) {
-      return `${article.doi}/${article.revisions.slice(-1)[0].revision_number}`;
+      return `${article.doi}/${article.revision}`;
     },
   },
 };
