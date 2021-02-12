@@ -1,6 +1,12 @@
 <template>
   <article v-if="article" class="full-article">
     <header class="article-header">
+      <div class="article-menu">
+        <Dropbutton :label="`v ${article.revision} ▾`">
+          <div>v 1 (2021-01-02)</div>
+          <div>v 2 (2021-01-15)</div>
+        </Dropbutton>
+      </div>
       <div class="container">
         <div class="article-mainmeta">
           <div>
@@ -14,12 +20,6 @@
             <span class="meta-value">{{
               article.published_at.slice(0, 10)
             }}</span>
-          </div>
-          <div>
-            Revision:
-            <span class="meta-value">
-              {{ article.revision }}
-            </span>
           </div>
         </div>
 
@@ -148,9 +148,11 @@
 
 <script>
 import { getArticle } from "../assets/api";
+import Dropbutton from "@/components/Dropbutton";
 
 export default {
   name: "Article",
+  components: { Dropbutton },
   props: {
     doiPrefix: String,
     doiSuffix: String,
@@ -168,24 +170,41 @@ export default {
   },
   async created() {
     this.article = await getArticle(this.doi, this.revision);
+    this.$store.commit("setArticleData", this.article);
+    document.title = this.article.title;
   },
 };
 </script>
 
 <style lang="scss">
 .meta-value {
-  color: #368fa5;
+  // color: #a68436;
   font-weight: 300;
 }
 
 .article-header {
-  padding-bottom: 20px;
-  border-bottom: 1px dashed currentColor;
+  background-color: #f4f4f4;
+  padding: 50px 0 30px;
   margin-bottom: 40px;
   font-weight: 100;
 
+  .article-menu {
+    font-family: Signika, sans-serif;
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    width: 10%;
+
+    button {
+      font-family: Signika, sans-serif;
+      font-size: inherit;
+    }
+  }
+
   .article-mainmeta {
-    margin: 50px 0 30px;
+    font-family: Signika, sans-serif;
+    font-weight: 400;
+    margin: 0 0 30px;
     line-height: 1.5;
   }
   .article-title {
@@ -230,7 +249,9 @@ export default {
 }
 
 .article-keywords {
-  margin: 20px 0;
+  font-family: Signika, sans-serif;
+  font-weight: 400;
+  margin: 1.5em 0;
 }
 
 .article-section {
@@ -254,6 +275,7 @@ export default {
     font-size: 0.9rem;
     text-align: right;
     position: relative;
+    font-family: Signika, sans-serif;
 
     .media-item {
       margin-bottom: 0.5rem;
@@ -335,6 +357,8 @@ export default {
 
     .references-item {
       margin-bottom: 1rem;
+      padding-left: 0.7em;
+      text-indent: -0.7em;
 
       .extra-label {
         font-weight: bold;

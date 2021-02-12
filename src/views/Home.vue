@@ -1,6 +1,15 @@
 <template>
-  <div>
-    <h2>Articles</h2>
+  <div class="container">
+    <img src="/biccs_2021.jpg" />
+    <h1>Biennial International Conference for the Craft Sciences</h1>
+    <p>
+      Quis tempor tempor nisi anim minim sint sit velit cillum labore non irure
+      deserunt incididunt. Aliquip aute qui in culpa aliqua dolore Lorem.
+      Laboris excepteur veniam consequat mollit incididunt elit nisi. Veniam et
+      mollit Lorem Lorem nisi incididunt ex duis consequat laborum aute do. Non
+      esse ullamco excepteur ea dolor aliqua velit consequat nulla aliquip
+      proident aute cillum consectetur.
+    </p>
     <ol>
       <li v-for="article of articles" :key="article.doi">
         <router-link :to="articlePath(article)">
@@ -8,18 +17,11 @@
         </router-link>
       </li>
     </ol>
-    <h2>Data</h2>
-    <json-viewer>
-      <script type="application/json">
-        {{ dataJson }}
-      </script>
-    </json-viewer>
   </div>
 </template>
 
 <script>
 import { getArticles } from "@/assets/api";
-import "@power-elements/json-viewer";
 
 export default {
   name: "Home",
@@ -45,8 +47,7 @@ export default {
 </script>
 
 <style scoped>
-json-viewer {
-  font-size: 0.75rem;
-  overflow-x: scroll;
+img {
+  max-width: 100%;
 }
 </style>
