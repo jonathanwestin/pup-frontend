@@ -61,6 +61,17 @@ a:hover {
   color: #159cea;
   text-decoration: none;
 }
+a.blind,
+a.blind:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+.popout {
+  transition: transform 150ms ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
 
 .container {
   width: 95%;

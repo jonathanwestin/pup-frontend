@@ -51,13 +51,26 @@
           ><template v-if="i < article.keywords.length - 1">, </template>
         </span>
       </div>
+      <div class="article-downloads">
+        <a
+          v-for="download in article.downloads"
+          :key="download.id"
+          :href="`http://localhost:1337${download.url}`"
+          class="download blind popout"
+        >
+          <div class="download-title">{{ download.caption }}</div>
+          <div class="download-description">
+            {{ download.ext.slice(1).toUpperCase() }}
+          </div>
+        </a>
+      </div>
     </div>
     <div class="container article-content">
       <section
         v-for="section in article.content"
         :key="section.label"
-        class="article-section"
         :id="section.label"
+        class="article-section"
       >
         <div class="content-ear">
           <a :href="`#${section.label}`">{{ section.label }}</a>
@@ -125,7 +138,7 @@
           :key="reference.id"
           class="references-item"
         >
-          {{ reference.text }}
+          {{ reference.content }}
         </div>
 
         <div
@@ -196,6 +209,7 @@ export default {
     line-height: 1.5;
   }
   .article-title {
+    font-size: 3rem;
     margin: 1.5rem 0 0.5rem;
   }
   .article-subtitle {
@@ -241,9 +255,32 @@ export default {
 }
 
 .article-keywords {
-  font-family: Signika, sans-serif;
+  font-family: "Signika", sans-serif;
   font-weight: 400;
   margin: 1.5em 0;
+}
+
+.article-downloads {
+  display: flex;
+  font-family: "Signika", sans-serif;
+
+  .download {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: url(../assets/file.png) no-repeat;
+    background-size: 4rem;
+    background-position: 1rem 50%;
+    border: thin dashed #666;
+    border-radius: 0.5rem;
+    height: 4rem;
+    padding: 1rem 1rem 1rem 5rem;
+    margin-right: 2rem;
+
+    .download-description {
+      font-size: 85%;
+    }
+  }
 }
 
 .article-section {
