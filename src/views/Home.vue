@@ -10,21 +10,17 @@
       esse ullamco excepteur ea dolor aliqua velit consequat nulla aliquip
       proident aute cillum consectetur.
     </p>
-    <ol>
-      <li v-for="article of articles" :key="article.id">
-        <router-link :to="articlePath(article)">
-          {{ article.title }}
-        </router-link>
-      </li>
-    </ol>
+    <Teaser :article="article" v-for="article of articles" :key="article.id" />
   </div>
 </template>
 
 <script>
 import { getArticles } from "@/assets/api";
+import Teaser from "@/components/Teaser";
 
 export default {
   name: "Home",
+  components: { Teaser },
   data() {
     return {
       articles: null,
@@ -37,11 +33,6 @@ export default {
   },
   async created() {
     this.articles = await getArticles();
-  },
-  methods: {
-    articlePath(article) {
-      return `${article.id}/${article.revision}`;
-    },
   },
 };
 </script>
