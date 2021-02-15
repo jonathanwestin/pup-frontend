@@ -13,6 +13,13 @@
       <div v-if="article.subtitle" class="title sub">
         {{ article.subtitle }}
       </div>
+      <div v-if="article.authors">
+        {{
+          article.authors
+            .map((author) => `${author.firstname} ${author.lastname}`)
+            .join(", ")
+        }}
+      </div>
     </div>
   </router-link>
 </template>
@@ -41,11 +48,10 @@ export default {
 <style lang="scss" scoped>
 .teaser {
   margin: 0.5rem 0;
-  height: 10rem;
+  height: 18rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  font-family: "Nobile", sans-serif;
   font-weight: 600;
   position: relative;
   /* overflow: hidden; */
@@ -64,7 +70,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-top: 1rem;
+  padding: 0.5rem 0.5rem 0.2rem;
   background: rgba(255, 255, 255, 0.8);
   z-index: 20;
   top: 0;
@@ -87,6 +93,6 @@ export default {
 }
 
 .title {
-  margin: 0 0.5rem 0.2rem;
+  margin: 0 0 0.2rem;
 }
 </style>

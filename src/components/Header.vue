@@ -1,12 +1,12 @@
 <template>
   <aside id="header">
-    <div class="left"></div>
+    <!-- <div class="left"></div> -->
     <div class="middle">
       <router-link to="/">
         Biennial International Conference for the Craft Sciences
       </router-link>
     </div>
-    <div class="right"></div>
+    <!-- <div class="right"></div> -->
   </aside>
 </template>
 
@@ -22,12 +22,17 @@ export default {
   color: #eaeae7;
   font-family: Signika, sans-serif;
   display: flex;
-  padding: 10px 0;
+  padding: 10px 2.5%;
+
+  @media screen and (min-width: 600px) {
+    padding: 10px 10%;
+  }
 }
 
 a {
-  color: inherit;
+  color: white;
   &:hover {
+    color: white;
     text-decoration: underline;
   }
 }
@@ -35,7 +40,6 @@ a {
 .left,
 .right {
   width: 10%;
-  padding: 0 10px;
   box-sizing: border-box;
   text-align: right;
 }

@@ -28,10 +28,14 @@
             :key="author.id"
           >
             <div class="author-name">
-              {{ [author.person.firstname, author.person.lastname].join(" ") }}
+              {{ author.firstname }}
+              {{ author.lastname }}
             </div>
             <div class="author-affiliation">
-              {{ author.institution.title }}
+              <div>{{ author.affiliation }}</div>
+              <div>
+                <code>{{ author.email }}</code>
+              </div>
             </div>
           </div>
         </div>
@@ -143,15 +147,10 @@
 
 <script>
 import { getArticle } from "../assets/api";
-import Dropbutton from "@/components/Dropbutton";
 
 export default {
   name: "Article",
-  components: { Dropbutton },
-  props: {
-    articleId: String,
-    revision: String,
-  },
+  props: ["articleId", "revision"],
   data() {
     return {
       article: null,
@@ -173,8 +172,8 @@ export default {
 
 .article-header {
   background-color: #f4f4f4;
-  padding: 50px 0 30px;
-  margin-bottom: 40px;
+  padding: 2.5rem 0 1.5rem;
+  margin-bottom: 1rem;
   font-weight: 100;
 
   .article-menu {
@@ -193,14 +192,14 @@ export default {
   .article-mainmeta {
     font-family: Signika, sans-serif;
     font-weight: 400;
-    margin: 0 0 30px;
+    margin: 0 0 1.5rem;
     line-height: 1.5;
   }
   .article-title {
-    margin: 30px 0 10px;
+    margin: 1.5rem 0 0.5rem;
   }
   .article-subtitle {
-    margin: 10px 0 20px;
+    margin: 0.5rem 0 1rem;
     font-size: 2rem;
   }
 
@@ -208,12 +207,13 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: -10px;
+    margin-right: -2rem;
     font-size: 1.1rem;
 
     .author {
       flex: 1;
-      margin: 10px;
+      margin-right: 2rem;
+      margin-bottom: 1rem;
       min-width: 15em;
       line-height: 1.5;
     }
@@ -225,15 +225,18 @@ export default {
 }
 .article-summary {
   h2 {
-    margin: 0 0 20px;
+    margin: 0 0 1rem;
   }
 
   p {
-    margin: 20px 0;
-    column-count: 2;
-    column-gap: 40px;
+    margin: 1rem 0;
     font-size: 1.1rem;
     font-weight: 100;
+
+    @media screen and (min-width: 1000px) {
+      column-count: 2;
+      column-gap: 2rem;
+    }
   }
 }
 
@@ -244,7 +247,6 @@ export default {
 }
 
 .article-section {
-  display: flex;
   margin: 1.5rem 0;
   scroll-margin-top: 1rem;
 
@@ -258,9 +260,7 @@ export default {
   }
 
   .content-media {
-    width: 60%;
-    margin: 0;
-    margin-right: 5%;
+    margin: 0 0 1rem;
     font-size: 0.9rem;
     text-align: right;
     position: relative;
@@ -289,23 +289,9 @@ export default {
         }
       }
     }
-
-    &::after {
-      position: absolute;
-      top: 0.25rem;
-      left: 103%;
-      content: " ";
-      display: block;
-      width: 0.75rem;
-      height: 0.75rem;
-      background-image: url("../assets/chevrons.png");
-      background-size: cover;
-      transform: scaleX(-1);
-    }
   }
 
   .content-text {
-    width: 35%;
     text-align: justify;
 
     p:first-child {
@@ -316,24 +302,59 @@ export default {
     }
   }
 
-  // Every other section is laid out in reverse.
-  &:nth-child(2n) {
-    flex-direction: row-reverse;
+  @media screen and (min-width: 1000px) {
+    display: flex;
 
     .content-media {
-      margin-left: 5%;
-      margin-right: 0;
-      text-align: left;
-
-      .gallery {
-        flex-direction: row;
-      }
+      width: 47.5%;
+      margin-right: 5%;
 
       &::after {
-        left: auto;
-        right: 103%;
-        transform: none;
+        position: absolute;
+        top: 0.25rem;
+        left: 103%;
+        content: " ";
+        display: block;
+        width: 0.75rem;
+        height: 0.75rem;
+        background-image: url("../assets/chevrons.png");
+        background-size: cover;
+        transform: scaleX(-1);
       }
+    }
+
+    .content-text {
+      width: 47.5%;
+    }
+
+    // Every other section is laid out in reverse.
+    &:nth-child(2n) {
+      flex-direction: row-reverse;
+
+      .content-media {
+        margin-left: 5%;
+        margin-right: 0;
+        text-align: left;
+
+        .gallery {
+          flex-direction: row;
+        }
+
+        &::after {
+          left: auto;
+          right: 103%;
+          transform: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .content-media {
+      width: 60%;
+    }
+    .content-text {
+      width: 35%;
     }
   }
 }
@@ -342,7 +363,9 @@ export default {
   margin: 4rem auto;
 
   .references-list {
-    columns: 2 30px;
+    @media screen and (min-width: 1000px) {
+      columns: 2 30px;
+    }
 
     .references-item {
       margin-bottom: 1rem;

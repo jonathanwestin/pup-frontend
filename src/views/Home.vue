@@ -26,7 +26,9 @@
         <p>{{ group.description }}</p>
         <div class="articles">
           <Teaser
-            :article="article"
+            :article="
+              articles.find((article2) => article.id === article2.id) || article
+            "
             v-for="article of group.articles"
             :key="article.id"
           />
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import { getJournal } from "@/assets/api";
+import { getJournal, getArticles } from "@/assets/api";
 import Teaser from "@/components/Teaser";
 
 export default {
@@ -46,6 +48,7 @@ export default {
   data() {
     return {
       journal: null,
+      articles: null,
       grouping: "themes",
     };
   },
@@ -56,6 +59,7 @@ export default {
   },
   created() {
     getJournal(1).then((journal) => (this.journal = journal));
+    getArticles().then((articles) => (this.articles = articles));
   },
   methods: {
     groupBy(grouping) {
@@ -111,6 +115,10 @@ img {
     width: calc(50% - 0.5rem);
     margin: 0 0.5rem 0.5rem 0;
     box-sizing: border-box;
+
+    @media screen and (max-width: 1000px) {
+      width: 100%;
+    }
   }
 }
 </style>

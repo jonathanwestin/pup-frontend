@@ -20,6 +20,10 @@ export default {
 
 html {
   font-size: 20px;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 18px;
+  }
 }
 body {
   color: black;
@@ -42,11 +46,11 @@ h6 {
 .title {
   font-family: "Nobile", sans-serif;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.3;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 h2 {
   font-size: 1.75rem;
@@ -59,7 +63,17 @@ a:hover {
 }
 
 .container {
-  width: 80%;
+  width: 95%;
   margin: auto;
+
+  @media screen and (min-width: 600px) {
+    width: 80%;
+  }
+}
+
+pre,
+code {
+  font-family: "Signika", sans-serif;
+  font-size: 0.9em;
 }
 </style>
