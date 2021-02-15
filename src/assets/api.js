@@ -13,9 +13,9 @@ export async function getArticles() {
     : axios.get(url("articles")).then((resp) => resp.data);
 }
 
-export async function getArticle(doi, revision) {
+export async function getArticle(id, revision) {
   const articles = await getArticles();
   return articles.find(
-    (article) => article.doi === doi && article.revision == revision
+    (article) => article.id == id && article.revision == revision
   );
 }

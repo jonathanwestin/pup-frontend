@@ -1,25 +1,20 @@
 <template>
   <article v-if="article" class="full-article">
     <header class="article-header">
-      <div class="article-menu">
-        <Dropbutton :label="`v ${article.revision} ▾`">
-          <div>v 1 (2021-01-02)</div>
-          <div>v 2 (2021-01-15)</div>
-        </Dropbutton>
-      </div>
       <div class="container">
         <div class="article-mainmeta">
           <div>
-            DOI:
-            <router-link :to="$route.path" class="meta-value">
-              {{ article.doi }}
-            </router-link>
+            Publication date:
+            <span class="meta-value">
+              {{ article.date }}
+            </span>
           </div>
           <div>
-            Publication date:
-            <span class="meta-value">{{
-              article.published_at.slice(0, 10)
-            }}</span>
+            Revision:
+            <span class="meta-value">
+              {{ article.revision }}
+              ({{ article.revision_date }})
+            </span>
           </div>
         </div>
 
@@ -30,7 +25,7 @@
           <div
             class="author"
             v-for="author of article.authors"
-            :key="author._id"
+            :key="author.id"
           >
             <div class="author-name">
               {{ [author.person.firstname, author.person.lastname].join(" ") }}
@@ -47,7 +42,7 @@
       <p>{{ article.summary }}</p>
       <div class="article-keywords">
         Keywords:
-        <span v-for="(keyword, i) in article.keywords" :key="keyword._id"
+        <span v-for="(keyword, i) in article.keywords" :key="keyword.id"
           ><span class="meta-value">{{ keyword.label }}</span
           ><template v-if="i < article.keywords.length - 1">, </template>
         </span>
@@ -67,7 +62,7 @@
           <div :class="{ gallery: section.media.length > 1 }">
             <div
               v-for="media of section.media"
-              :key="media._id"
+              :key="media.id"
               class="media-item"
             >
               <img
@@ -123,7 +118,7 @@
       <div class="references-list">
         <div
           v-for="reference in article.references"
-          :key="reference._id"
+          :key="reference.id"
           class="references-item"
         >
           {{ reference.text }}
@@ -154,8 +149,7 @@ export default {
   name: "Article",
   components: { Dropbutton },
   props: {
-    doiPrefix: String,
-    doiSuffix: String,
+    articleId: String,
     revision: String,
   },
   data() {
@@ -163,13 +157,8 @@ export default {
       article: null,
     };
   },
-  computed: {
-    doi() {
-      return `${this.doiPrefix}/${this.doiSuffix}`;
-    },
-  },
   async created() {
-    this.article = await getArticle(this.doi, this.revision);
+    this.article = await getArticle(this.articleId, this.revision);
     this.$store.commit("setArticleData", this.article);
     document.title = this.article.title;
   },

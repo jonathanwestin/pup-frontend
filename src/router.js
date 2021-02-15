@@ -15,7 +15,7 @@ export default new Router({
       component: Home
     },
     {
-      path: "/:doiPrefix/:doiSuffix/:revision",
+      path: "/:articleId/:revision",
       name: "article",
       component: Article,
       props: true

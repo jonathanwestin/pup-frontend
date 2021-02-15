@@ -11,7 +11,7 @@
       proident aute cillum consectetur.
     </p>
     <ol>
-      <li v-for="article of articles" :key="article.doi">
+      <li v-for="article of articles" :key="article.id">
         <router-link :to="articlePath(article)">
           {{ article.title }}
         </router-link>
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     articlePath(article) {
-      return `${article.doi}/${article.revision}`;
+      return `${article.id}/${article.revision}`;
     },
   },
 };
