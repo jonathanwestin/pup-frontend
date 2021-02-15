@@ -18,8 +18,8 @@
           </div>
         </div>
 
-        <h1 class="article-title">{{ article.title }}</h1>
-        <h2 class="article-subtitle">{{ article.subtitle }}</h2>
+        <h1 class="article-title title">{{ article.title }}</h1>
+        <h2 class="article-subtitle title">{{ article.subtitle }}</h2>
 
         <div class="article-authors">
           <div

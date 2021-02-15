@@ -29,27 +29,35 @@ body {
   line-height: 1.3;
   margin: 0;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+  font-family: "Signika", sans-serif;
+}
+
+.title {
   font-family: "Nobile", sans-serif;
   font-weight: 600;
   line-height: 1;
 }
+
 h1 {
   font-size: 3rem;
 }
 h2 {
   font-size: 1.75rem;
 }
+
 a,
 a:hover {
   color: #159cea;
   text-decoration: none;
 }
+
 .container {
   width: 80%;
   margin: auto;

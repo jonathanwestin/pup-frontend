@@ -7,6 +7,10 @@ function url(path) {
   return "http://localhost:1337/" + path;
 }
 
+export async function getJournal(id) {
+  return axios.get(url(`journals/${id}`)).then((response) => response.data);
+}
+
 export async function getArticles() {
   return USE_LOCAL
     ? Promise.resolve(articles)
