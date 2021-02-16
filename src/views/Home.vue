@@ -6,17 +6,25 @@
       <p v-html="parseMarkdown(journal.presentation)" />
       <div>
         <div class="grouping-select">
-          <label>Order articles by:</label>
+          <label>Order articles by: </label>
           <span
             :class="{ active: grouping === 'themes' }"
-            @click="groupBy('themes')"
-            >Theme</span
+            @click="groupByThemes"
           >
+            Theme
+          </span>
+          <ToggleButton
+            :value="grouping === 'formats'"
+            @change="toggleGroupBy"
+            :color="{ unchecked: '#333', checked: '#333' }"
+            :sync="true"
+          />
           <span
             :class="{ active: grouping === 'formats' }"
-            @click="groupBy('formats')"
-            >Output format</span
+            @click="groupByFormats"
           >
+            Output format
+          </span>
         </div>
       </div>
       <div v-for="group in groups" :key="group.id" class="group">
@@ -38,6 +46,7 @@
 
 <script>
 import showdown from "showdown";
+import { ToggleButton } from "vue-js-toggle-button";
 import { getJournal, getArticles } from "@/assets/api";
 import Teaser from "@/components/Teaser";
 
@@ -45,7 +54,7 @@ const showdownConverter = new showdown.Converter();
 
 export default {
   name: "Home",
-  components: { Teaser },
+  components: { ToggleButton, Teaser },
   data() {
     return {
       journal: null,
@@ -63,8 +72,14 @@ export default {
     getArticles().then((articles) => (this.articles = articles));
   },
   methods: {
-    groupBy(grouping) {
-      this.grouping = grouping;
+    groupByThemes() {
+      this.grouping = "themes";
+    },
+    groupByFormats() {
+      this.grouping = "formats";
+    },
+    toggleGroupBy({ value }) {
+      this.grouping = value ? "formats" : "themes";
     },
     parseMarkdown(md) {
       return showdownConverter.makeHtml(md);
@@ -83,27 +98,8 @@ img {
   max-width: 100%;
 }
 
-.grouping-select {
-  display: flex;
-  align-items: baseline;
-}
-.grouping-select span {
-  display: inline-block;
-  border: thin solid currentColor;
-  border-left-width: 0;
-  padding: 0 0.3rem;
-
-  &:first-of-type {
-    border-radius: 0.2rem 0 0 0.2rem;
-    margin-left: 0.5rem;
-    border-left-width: thin;
-  }
-  &:last-of-type {
-    border-radius: 0 0.2rem 0.2rem 0;
-  }
-  &.active {
-    background-color: #f4f4f4;
-  }
+.grouping-select span.active {
+  font-weight: bold;
 }
 
 .group {
