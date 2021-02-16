@@ -10,7 +10,7 @@
             </span>
           </div>
           <div>
-            Revision:
+            Version:
             <span class="meta-value">
               {{ article.revision }}
               ({{ article.revision_date }})
@@ -28,8 +28,7 @@
             :key="author.id"
           >
             <div class="author-name">
-              {{ author.firstname }}
-              {{ author.lastname }}
+              {{ fullName(author) }}
             </div>
             <div class="author-affiliation">
               <div>{{ author.affiliation }}</div>
@@ -44,11 +43,21 @@
     <div class="container article-summary">
       <h2>Summary</h2>
       <p>{{ article.summary }}</p>
+    </div>
+    <div class="container">
       <div class="article-keywords">
         Keywords:
         <span v-for="(keyword, i) in article.keywords" :key="keyword.id"
           ><span class="meta-value">{{ keyword.label }}</span
           ><template v-if="i < article.keywords.length - 1">, </template>
+        </span>
+      </div>
+      <div class="article-cite">
+        Cite as:
+        <span class="meta-value">
+          {{ commaAnd(article.authors.map(lastnameFirst)) }}
+          ({{ article.date.slice(0, 4) }})
+          <em>{{ article.title }}</em>
         </span>
       </div>
       <div class="article-downloads">
@@ -160,19 +169,25 @@
 
 <script>
 import { getArticle } from "../assets/api";
+import { commaAnd, fullName, lastnameFirst } from "@/assets/util";
 
 export default {
   name: "Article",
-  props: ["articleId", "revision"],
+  props: ["identifier", "revision"],
   data() {
     return {
       article: null,
     };
   },
   async created() {
-    this.article = await getArticle(this.articleId, this.revision);
+    this.article = await getArticle(this.identifier, this.revision);
     this.$store.commit("setArticleData", this.article);
     document.title = this.article.title;
+  },
+  methods: {
+    commaAnd,
+    fullName,
+    lastnameFirst,
   },
 };
 </script>
@@ -254,7 +269,8 @@ export default {
   }
 }
 
-.article-keywords {
+.article-keywords,
+.article-cite {
   font-family: "Signika", sans-serif;
   font-weight: 400;
   margin: 1.5em 0;

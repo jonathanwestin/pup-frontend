@@ -14,17 +14,15 @@
         {{ article.subtitle }}
       </div>
       <div v-if="article.authors">
-        {{
-          article.authors
-            .map((author) => `${author.firstname} ${author.lastname}`)
-            .join(", ")
-        }}
+        {{ commaAnd(article.authors.map(fullName)) }}
       </div>
     </div>
   </router-link>
 </template>
 
 <script>
+import { commaAnd, fullName } from "@/assets/util";
+
 export default {
   name: "Teaser",
   props: ["article"],
@@ -38,9 +36,16 @@ export default {
     route() {
       return {
         name: "article",
-        params: { articleId: this.article.id, revision: this.article.revision },
+        params: {
+          identifier: this.article.identifier,
+          revision: this.article.revision,
+        },
       };
     },
+  },
+  methods: {
+    commaAnd,
+    fullName,
   },
 };
 </script>

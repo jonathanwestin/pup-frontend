@@ -1,25 +1,21 @@
 import axios from "axios";
-import articles from "@/assets/data";
+import qs from "qs";
 
-const USE_LOCAL = false;
-
-function url(path) {
-  return "http://localhost:1337/" + path;
+function url(path, params = null) {
+  return (
+    "http://localhost:1337/" + path + (params ? "?" + qs.stringify(params) : "")
+  );
 }
 
 export async function getJournal(id) {
   return axios.get(url(`journals/${id}`)).then((response) => response.data);
 }
 
-export async function getArticles() {
-  return USE_LOCAL
-    ? Promise.resolve(articles)
-    : axios.get(url("articles")).then((resp) => resp.data);
+export async function getArticles(params) {
+  return axios.get(url("articles", params)).then((resp) => resp.data);
 }
 
-export async function getArticle(id, revision) {
-  const articles = await getArticles();
-  return articles.find(
-    (article) => article.id == id && article.revision == revision
-  );
+export async function getArticle(identifier, revision) {
+  const articles = await getArticles({ identifier, revision });
+  return articles.pop();
 }
