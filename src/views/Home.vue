@@ -3,9 +3,7 @@
     <div class="container">
       <img src="/biccs_2021.jpg" />
       <h1 class="title">{{ journal.title }}</h1>
-      <p>
-        {{ journal.presentation }}
-      </p>
+      <p v-html="parseMarkdown(journal.presentation)" />
       <div>
         <div class="grouping-select">
           <label>Order articles by:</label>
@@ -39,8 +37,11 @@
 </template>
 
 <script>
+import showdown from "showdown";
 import { getJournal, getArticles } from "@/assets/api";
 import Teaser from "@/components/Teaser";
+
+const showdownConverter = new showdown.Converter();
 
 export default {
   name: "Home",
@@ -64,6 +65,9 @@ export default {
   methods: {
     groupBy(grouping) {
       this.grouping = grouping;
+    },
+    parseMarkdown(md) {
+      return showdownConverter.makeHtml(md);
     },
   },
 };
