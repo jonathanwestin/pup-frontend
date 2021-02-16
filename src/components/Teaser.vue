@@ -5,8 +5,8 @@
     class="teaser"
     :class="{ 'no-image': !image }"
     :style="{
-      backgroundColor: strToColor(article.title),
-      backgroundImage: `url(${image})`,
+      backgroundColor: !image && strToColor(article.title),
+      backgroundImage: image && `url(${image})`,
     }"
   >
     <div class="text">
@@ -61,14 +61,10 @@ export default {
   justify-content: flex-end;
   font-weight: 600;
   position: relative;
-  /* overflow: hidden; */
+  background-color: #f4f4f4;
   background-size: cover;
   background-position: center;
   cursor: pointer;
-}
-
-.no-image {
-  background-color: #f4f4f4;
 }
 
 .text {
@@ -81,6 +77,8 @@ export default {
   z-index: 20;
   top: 0;
   transition: top 150ms ease;
+  font-family: "Cardo", Garamond, serif;
+  font-weight: 300;
 }
 
 .teaser:hover {

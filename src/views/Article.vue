@@ -1,8 +1,18 @@
 <template>
   <article v-if="article" class="full-article">
-    <header class="article-header">
-      <div class="container">
+    <header
+      class="article-header"
+      :style="{
+        backgroundColor: !article.image && strToColor(article.title),
+        backgroundImage: article.image && `url(${apiUrl(article.image.url)})`,
+      }"
+    >
+      <div class="container dark">
         <div class="article-mainmeta">
+          <router-link to="/">
+            Biennial International Conference for the Craft Sciences 2021
+          </router-link>
+
           <div>
             Publication date:
             <span class="meta-value">
@@ -53,11 +63,14 @@
         </span>
       </div>
       <div class="article-cite">
-        Cite as:
+        <span>Cite as:</span>
         <span class="meta-value">
           {{ commaAnd(article.authors.map(lastnameFirst)) }}
           ({{ article.date.slice(0, 4) }})
-          <em>{{ article.title }}</em>
+          <em>{{ article.title }}.</em>
+          Biennial International Conference for the Craft Sciences 2021. Version
+          {{ article.revision }} ({{ article.revision_date }}).
+          https://biccs.dh.gu.se{{ $route.path }}
         </span>
       </div>
       <div class="article-downloads">
@@ -110,8 +123,8 @@
 </template>
 
 <script>
-import { getArticle } from "../assets/api";
-import { commaAnd, fullName, lastnameFirst } from "@/assets/util";
+import { apiUrl, getArticle } from "../assets/api";
+import { commaAnd, fullName, lastnameFirst, strToColor } from "@/assets/util";
 import ContentSection from "@/components/ContentSection";
 
 export default {
@@ -129,9 +142,11 @@ export default {
     document.title = this.article.title;
   },
   methods: {
+    apiUrl,
     commaAnd,
     fullName,
     lastnameFirst,
+    strToColor,
   },
 };
 </script>
@@ -144,9 +159,19 @@ export default {
 
 .article-header {
   background-color: #f4f4f4;
-  padding: 2.5rem 0 1.5rem;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   margin-bottom: 1rem;
   font-weight: 100;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+
+  .container {
+    padding: 1rem;
+  }
 
   .article-menu {
     font-family: Signika, sans-serif;
@@ -177,6 +202,13 @@ export default {
   }
 
   @media screen and (min-width: 600px) {
+    padding: 2.5rem 0 1.5rem;
+    height: 100vh;
+
+    .container {
+      background: #333c;
+    }
+
     .article-title {
       font-size: 3rem;
     }
@@ -190,6 +222,7 @@ export default {
     flex-wrap: wrap;
     justify-content: space-around;
     font-size: 1.1rem;
+    margin-bottom: -1rem;
 
     .author {
       flex: 1;

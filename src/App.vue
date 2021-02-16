@@ -1,16 +1,11 @@
 <template>
   <div id="app">
-    <Header />
     <router-view />
   </div>
 </template>
 
 <script>
-import Header from "@/components/Header";
-
-export default {
-  components: { Header },
-};
+export default {};
 </script>
 
 <style lang="scss">
@@ -75,10 +70,23 @@ a.blind:hover {
 
 .container {
   width: 95%;
-  margin: auto;
+  margin: 0 auto;
 
   @media screen and (min-width: 600px) {
     width: 80%;
+  }
+}
+
+.dark {
+  background-color: #333;
+  color: #f4f4f4;
+
+  a {
+    color: white;
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
   }
 }
 
