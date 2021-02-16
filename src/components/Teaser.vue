@@ -5,6 +5,7 @@
     class="teaser"
     :class="{ 'no-image': !image }"
     :style="{
+      backgroundColor: strToColor(article.title),
       backgroundImage: `url(${image})`,
     }"
   >
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-import { commaAnd, fullName } from "@/assets/util";
+import { commaAnd, fullName, strToColor } from "@/assets/util";
 
 export default {
   name: "Teaser",
@@ -46,6 +47,7 @@ export default {
   methods: {
     commaAnd,
     fullName,
+    strToColor,
   },
 };
 </script>
@@ -71,7 +73,6 @@ export default {
 
 .text {
   position: relative;
-  // height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
