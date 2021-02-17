@@ -1,26 +1,17 @@
-# pupfe
+# pup-frontend
 
-## Project setup
-```
-yarn install
-```
+Vue-based web frontend for the Publication Platform of the Centre for Digital Humanities at the University of Gothenburg.
 
-### Compiles and hot-reloads for development
+Uses [pup-admin](https://github.com/CDH-DevTeam/pup-admin) as backend.
+
+### Development
+
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
+### Deployment
+
 ```
 yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
 ```

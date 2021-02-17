@@ -1,12 +1,11 @@
 {
-  "name": "pupfe",
+  "name": "pup-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "deploy-demo": "PUBLIC_PATH='/arild/cdh/pupfe/' yarn build && rsync -az dist/ demo:htdocs/cdh/pupfe/"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.21.1",

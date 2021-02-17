@@ -1,10 +1,10 @@
 import axios from "axios";
 import qs from "qs";
 
+const API_BASE = process.env.VUE_APP_API_BASE || "http://localhost:1337/";
+
 function url(path, params = null) {
-  return (
-    "http://localhost:1337/" + path + (params ? "?" + qs.stringify(params) : "")
-  );
+  return API_BASE + path + (params ? "?" + qs.stringify(params) : "");
 }
 
 export async function getJournal(id) {
