@@ -127,7 +127,7 @@ export default {
         display: block;
         width: 0.75rem;
         height: 0.75rem;
-        background-image: url("../assets/chevrons.png");
+        background-image: url("../../assets/chevrons.png");
         background-size: cover;
         transform: scaleX(-1);
       }
