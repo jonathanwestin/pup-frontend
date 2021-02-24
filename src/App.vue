@@ -67,9 +67,12 @@ a.blind:hover {
   text-decoration: inherit;
 }
 .popout {
+  position: relative;
+  display: block;
   transition: transform 150ms ease;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
+    z-index: 3;
   }
 }
 

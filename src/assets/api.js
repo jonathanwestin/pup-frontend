@@ -4,7 +4,11 @@ import qs from "qs";
 const API_BASE = process.env.VUE_APP_API_BASE || "http://localhost:1337/";
 
 export function apiUrl(path, params = null) {
-  return API_BASE + path + (params ? "?" + qs.stringify(params) : "");
+  return (
+    API_BASE +
+    path.replace(/^\//, "") +
+    (params ? "?" + qs.stringify(params) : "")
+  );
 }
 
 export async function getJournal(id) {

@@ -55,12 +55,21 @@
           >
           </iframe>
         </div>
-        <div v-else-if="article.images">
-          <img
+        <div
+          v-else-if="article.images"
+          v-masonry="article - images"
+          item-selector=".images-item"
+        >
+          <div
             v-for="image in article.images"
             :key="image.id"
-            :src="apiUrl(image.formats.thumbnail.url.replace(/^\//, ''))"
-          />
+            v-masonry-tile
+            class="images-item"
+          >
+            <a :href="apiUrl(image.formats.large.url)">
+              <img :src="apiUrl(image.formats.small.url)"
+            /></a>
+          </div>
         </div>
       </div>
     </div>
@@ -313,6 +322,23 @@ export default {
     width: 100%;
     /* TODO Set height dynamically from video's aspect ratio? */
     height: 45vw;
+  }
+
+  .images-item {
+    width: 50%;
+
+    img {
+      transition: opacity 150ms ease;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      margin: 0;
+    }
   }
 }
 
