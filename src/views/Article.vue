@@ -23,9 +23,9 @@
 
         <div class="article-authors">
           <div
-            class="author"
             v-for="author of article.authors"
             :key="author.id"
+            class="author"
           >
             <div class="author-name">
               {{ fullName(author) }}
@@ -40,6 +40,31 @@
         </div>
       </div>
     </header>
+
+    <div v-if="article.guplayId || article.images" class="article-mainvisual">
+      <div class="container">
+        <div v-if="article.guplayId" class="mainvisual-video-wrapper">
+          <iframe
+            :src="`https://play.gu.se/embed/secure/iframe/entryId/${article.guplayId}/uiConfId/23450401`"
+            class="mainvisual-video"
+            allowfullscreen
+            webkitallowfullscreen
+            mozAllowFullScreen
+            allow="autoplay *; fullscreen *; encrypted-media *"
+            sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation"
+          >
+          </iframe>
+        </div>
+        <div v-else-if="article.images">
+          <img
+            v-for="image in article.images"
+            :key="image.id"
+            :src="apiUrl(image.formats.thumbnail.url.replace(/^\//, ''))"
+          />
+        </div>
+      </div>
+    </div>
+
     <div class="container article-summary">
       <h2>Summary</h2>
       <div class="summary-text" v-html="parseMarkdown(article.summary)" />
@@ -220,10 +245,6 @@ export default {
 }
 
 .article-summary {
-  h2 {
-    margin: 0 0 1rem;
-  }
-
   .summary-text {
     margin: 1rem 0;
     font-size: 1.1rem;
@@ -282,6 +303,16 @@ export default {
       width: auto;
       margin-right: 2rem;
     }
+  }
+}
+
+.article-mainvisual {
+  margin-top: -1rem; /* Snug to header */
+
+  .mainvisual-video {
+    width: 100%;
+    /* TODO Set height dynamically from video's aspect ratio? */
+    height: 45vw;
   }
 }
 

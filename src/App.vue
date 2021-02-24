@@ -87,4 +87,8 @@ code {
   font-family: "Signika", sans-serif;
   font-size: 0.9em;
 }
+
+iframe {
+  border: none;
+}
 </style>
