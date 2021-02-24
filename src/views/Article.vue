@@ -42,7 +42,7 @@
     </header>
     <div class="container article-summary">
       <h2>Summary</h2>
-      <p>{{ article.summary }}</p>
+      <div class="summary-text" v-html="parseMarkdown(article.summary)" />
     </div>
     <div class="container">
       <div class="article-keywords">
@@ -64,7 +64,7 @@
         <a
           v-for="download in article.downloads"
           :key="download.id"
-          :href="`http://localhost:1337${download.url}`"
+          :href="apiUrl(download.url)"
           class="download blind popout"
         >
           <div class="download-title">{{ download.caption }}</div>
@@ -110,9 +110,12 @@
 </template>
 
 <script>
-import { getArticle } from "../assets/api";
+import showdown from "showdown";
+import { apiUrl, getArticle } from "../assets/api";
 import { commaAnd, fullName, lastnameFirst } from "@/assets/util";
 import ContentSection from "@/components/ContentSection";
+
+const showdownConverter = new showdown.Converter();
 
 export default {
   name: "Article",
@@ -129,9 +132,13 @@ export default {
     document.title = this.article.title;
   },
   methods: {
+    apiUrl,
     commaAnd,
     fullName,
     lastnameFirst,
+    parseMarkdown(md) {
+      return showdownConverter.makeHtml(md);
+    },
   },
 };
 </script>
@@ -217,10 +224,18 @@ export default {
     margin: 0 0 1rem;
   }
 
-  p {
+  .summary-text {
     margin: 1rem 0;
     font-size: 1.1rem;
     font-weight: 100;
+
+    p:first-child {
+      margin-top: 0;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
 
     @media screen and (min-width: 1000px) {
       column-count: 2;

@@ -9,9 +9,7 @@
           <img
             v-if="media.mime.split('/')[0] == 'image'"
             :src="
-              media.url.slice(0, 4) === 'http'
-                ? media.url
-                : `http://localhost:1337${media.url}`
+              media.url.slice(0, 4) === 'http' ? media.url : apiUrl(media.url)
             "
             class="media-visual"
           />
@@ -23,9 +21,7 @@
           >
             <source
               :src="
-                media.url.slice(0, 4) === 'http'
-                  ? media.url
-                  : `http://localhost:1337${media.url}`
+                media.url.slice(0, 4) === 'http' ? media.url : apiUrl(media.url)
               "
               :type="media.mime"
             />
@@ -49,8 +45,13 @@
 </template>
 
 <script>
+import { apiUrl } from "@/assets/api";
+
 export default {
   props: ["section"],
+  methods: {
+    apiUrl,
+  },
 };
 </script>
 

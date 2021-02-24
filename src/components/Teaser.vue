@@ -23,16 +23,14 @@
 
 <script>
 import { commaAnd, fullName, strToColor } from "@/assets/util";
+import { apiUrl } from "@/assets/api";
 
 export default {
   name: "Teaser",
   props: ["article"],
   computed: {
     image() {
-      return (
-        this.article.image &&
-        `http://localhost:1337${this.article.image.formats.large.url}`
-      );
+      return this.article.image && apiUrl(this.article.image.formats.large.url);
     },
     route() {
       return {
@@ -45,6 +43,7 @@ export default {
     },
   },
   methods: {
+    apiUrl,
     commaAnd,
     fullName,
     strToColor,
