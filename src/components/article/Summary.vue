@@ -5,21 +5,23 @@
       <div class="summary-text" v-html="parseMarkdown(summary)" />
     </div>
 
-    <div class="container snug">
-      <div class="article-keywords">
-        <MetaItem label="Keywords">
-          {{ keywords.map((keyword) => keyword.label).join(", ") }}
-        </MetaItem>
-      </div>
-      <div class="article-cite">
-        <MetaItem label="Cite as">
-          {{ commaAnd(authors.map(lastnameFirst)) }}
-          ({{ date.slice(0, 4) }})
-          <em>{{ title }}.</em>
-          Biennial International Conference for the Craft Sciences. Version
-          {{ revision }}. https://&lt;url&gt;{{ $route.path }}
-        </MetaItem>
-      </div>
+    <div class="container">
+      <table class="meta-table">
+        <tr>
+          <th>Keywords:</th>
+          <td>{{ keywords.map((keyword) => keyword.label).join(", ") }}</td>
+        </tr>
+        <tr>
+          <th>Cite as:</th>
+          <td>
+            {{ commaAnd(authors.map(lastnameFirst)) }}
+            ({{ date.slice(0, 4) }})
+            <em>{{ title }}.</em>
+            Biennial International Conference for the Craft Sciences. Version
+            {{ revision }}. https://&lt;url&gt;{{ $route.path }}
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -69,10 +71,27 @@ export default {
   }
 }
 
-.article-keywords,
-.article-cite {
+.meta-table {
+  width: 66.7%;
   font-family: "Signika", sans-serif;
-  font-weight: 400;
-  margin: 1rem 0;
+  text-align: left;
+
+  th,
+  td {
+    padding: 0;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 400;
+    padding-right: 1rem;
+  }
+
+  tr:not(:last-of-type) {
+    th,
+    td {
+      padding-bottom: 1rem;
+    }
+  }
 }
 </style>
