@@ -80,6 +80,10 @@ a.blind:hover {
   width: 95%;
   margin: auto;
 
+  &:not(.snug) {
+    padding: 1rem 0;
+  }
+
   @media screen and (min-width: 600px) {
     width: 80%;
   }

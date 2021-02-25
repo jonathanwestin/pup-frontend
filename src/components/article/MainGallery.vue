@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <div v-masonry transition-duration="0" item-selector=".images-item">
-      <div
-        v-for="image in images"
-        :key="image.id"
-        v-masonry-tile
-        class="images-item"
-      >
-        <a :href="apiUrl(image.formats.large.url)">
-          <img :src="apiUrl(image.formats.small.url)"
-        /></a>
-      </div>
+  <div
+    v-masonry
+    transition-duration="0"
+    item-selector=".images-item"
+    class="main-gallery"
+  >
+    <div
+      v-for="image in images"
+      :key="image.id"
+      v-masonry-tile
+      class="images-item"
+    >
+      <a :href="apiUrl(image.formats.large.url)">
+        <img :src="apiUrl(image.formats.small.url)"
+      /></a>
     </div>
   </div>
 </template>
@@ -28,8 +31,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-gallery {
+  margin-right: -0.5rem;
+}
 .images-item {
-  width: 50%;
+  width: calc(100% / 3 - 0.5rem);
+  margin: 0 0.5rem 0.5rem 0;
 
   img {
     transition: opacity 150ms ease;

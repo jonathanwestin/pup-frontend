@@ -2,19 +2,24 @@
   <article v-if="article" class="full-article">
     <Header v-bind="article" />
 
-    <div
-      v-if="article.guplayId || (article.images && article.images.length)"
-      class="article-mainvisual"
-    >
-      <div class="container">
-        <MainVideo v-if="article.guplayId" :guplay-id="article.guplayId" />
-        <MainGallery v-else-if="article.images" :images="article.images" />
-      </div>
-    </div>
-
     <Summary v-bind="article" />
 
-    <div class="container article-content">
+    <div v-if="article.guplayId" class="container">
+      <MainVideo :guplay-id="article.guplayId" />
+    </div>
+
+    <div class="container">
+      <Downloads :downloads="article.downloads" />
+    </div>
+
+    <div v-if="article.images" class="container">
+      <MainGallery :images="article.images" />
+    </div>
+
+    <div
+      v-if="article.content && article.content.length"
+      class="container article-content"
+    >
       <ContentSection
         v-for="section in article.content"
         :key="section.label"
@@ -36,6 +41,7 @@ import Header from "@/components/article/Header";
 import MainVideo from "@/components/article/MainVideo";
 import MainGallery from "@/components/article/MainGallery";
 import Summary from "@/components/article/Summary";
+import Downloads from "@/components/article/Downloads";
 import ContentSection from "@/components/article/ContentSection";
 import References from "@/components/article/References";
 
@@ -46,6 +52,7 @@ export default {
     MainVideo,
     MainGallery,
     Summary,
+    Downloads,
     ContentSection,
     References,
   },
@@ -67,9 +74,5 @@ export default {
 .full-article {
   /* Make bottom margin match side margin */
   margin: 0 0 10vw;
-}
-
-.article-mainvisual {
-  margin-top: -1rem; /* Snug to header */
 }
 </style>

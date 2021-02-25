@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .article-references {
-  margin: 4rem auto;
+  margin: 2rem auto 0;
 
   .references-list {
     @media screen and (min-width: 1000px) {

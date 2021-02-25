@@ -12,16 +12,21 @@
       <h2 class="article-subtitle title">{{ subtitle }}</h2>
 
       <div class="article-authors">
-        <div v-for="author of authors" :key="author.id" class="author">
-          <div class="author-name">
-            {{ fullName(author) }}
-          </div>
-          <div class="author-affiliation">
-            <div>{{ author.affiliation }}</div>
-            <div>
-              <code>{{ author.email }}</code>
-            </div>
-          </div>
+        <div class="author-name">
+          <CommaAnd :items="authors">
+            <template v-slot:item="{ item }">
+              {{ fullName(item)
+              }}<sup v-if="affiliations.length > 1">{{
+                affiliations.indexOf(item.affiliation) + 1
+              }}</sup></template
+            >
+          </CommaAnd>
+        </div>
+        <div class="author-affiliation">
+          <span v-for="(aff, i) in affiliations" :key="i">
+            <sup v-if="affiliations.length > 1">{{ i + 1 }}</sup
+            >{{ aff }}.
+          </span>
         </div>
       </div>
     </div>
@@ -32,15 +37,26 @@
 import { apiUrl } from "@/assets/api";
 import { commaAnd, fullName } from "@/assets/util";
 import MetaItem from "@/components/article/MetaItem";
+import CommaAnd from "@/components/CommaAnd";
 
 export default {
-  name: "ArticleHeader",
+  name: "Header",
+  components: { MetaItem, CommaAnd },
   props: ["date", "revision", "revision_date", "title", "subtitle", "authors"],
-  components: { MetaItem },
+  computed: {
+    affiliations() {
+      return this.uniq(
+        this.authors.map((author) => author.affiliation).filter(Boolean)
+      );
+    },
+  },
   methods: {
     apiUrl,
     commaAnd,
     fullName,
+    /** Remove duplicates, keep order by first occurrence. */
+    uniq: (arr) =>
+      arr.reduce((arr2, x) => (arr2.includes(x) ? arr2 : [...arr2, x]), []),
   },
 };
 </script>
@@ -48,8 +64,7 @@ export default {
 <style lang="scss" scoped>
 .article-header {
   background-color: #f4f4f4;
-  padding: 2.5rem 0 1.5rem;
-  margin-bottom: 1rem;
+  padding: 1.5rem 0 1.5rem;
   font-weight: 100;
 
   .article-menu {
@@ -88,28 +103,12 @@ export default {
   }
 
   .article-authors {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
     font-size: 1.1rem;
-
-    .author {
-      flex: 1;
-      margin-bottom: 1rem;
-      min-width: 15em;
-      line-height: 1.5;
-    }
 
     .author-name {
       font-size: 1.3rem;
-    }
-
-    @media screen and (min-width: 600px) {
-      margin-right: -2rem;
-
-      .author {
-        margin-right: 2rem;
-      }
+      // line-height: 1.5;
+      margin-bottom: 0.5rem;
     }
   }
 }
