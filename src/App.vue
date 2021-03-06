@@ -51,10 +51,10 @@ h6 {
 }
 
 h1 {
-  font-family: 'Teko', sans-serif;
-  font-size: 2.5rem;
+ font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 2.0rem;
    font-weight: 100;
-      line-height: 0.5;
+      line-height: 1.5;
 	  margin-top:4rem;
 }
 h2 {
