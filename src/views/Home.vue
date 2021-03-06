@@ -1,9 +1,15 @@
 <template>
   <div v-if="journal" class="home">
+
   <div class="top">
+
+  <video id="videoBG" poster="/poster.jpg" autoplay muted loop playsinline>
+      <source src="/introvideo.mp4" type="video/mp4">
+  </video>
+
     	<div class="container">
 		 	<div class="journalheader">
-     	   		<img src="/biccs_2021.jpg" />
+     	   		<img src="/biccs_2021.png" />
      	  	  	<div class="title">{{ journal.title }}</div>		
 			<div class="home-menu"><div class="home-menu-item">About BICCS</div><div class="home-menu-item">Contact</div>
 			</div>
@@ -11,14 +17,21 @@
   
 	    
 		 	</div>
+		 
+			
+			
 		</div>
+	   
+	   
    </div>
+   
+  
 	
 	  <div class="main">
 	  	  <div class="collections">
 	  
         <div class="grouping-select">
-          <label>Order articles by: </label>
+          <label>Order articles by:</label>
           <span
             :class="{ active: grouping === 'themes' }"
             @click="groupByThemes"
@@ -35,7 +48,7 @@
             :class="{ active: grouping === 'formats' }"
             @click="groupByFormats"
           >
-            Output format
+            Format
           </span>
     
     
@@ -112,6 +125,38 @@ export default {
  
 }
 
+.top{
+float:left;
+background-color:rgba(255,255,255,0.7);
+box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
+z-index:100;
+opacity: 0.99;
+ transform: translateZ(0);
+ overflow:hidden;
+
+
+}
+
+.videocontainer{
+position:absolute;
+width:100%;
+height:100%;
+
+}
+
+#videoBG {
+position:absolute;
+width:100%;
+height:100%;
+object-fit: fill;
+opacity: 0.20;
+transform: translateZ(0);
+overflow:hidden;
+z-index: -1;
+}
+
+
+
 
 .journalheader{
 padding:50px 0px 40px 0px;
@@ -131,7 +176,7 @@ float:left;
   font-size:200px;
   line-height: 0.75;
   margin-top:60px;
-  max-width:1200px;
+  max-width:1100px;
   margin-left:-10px;
 
 }
@@ -149,13 +194,13 @@ margin-left:-10px;
 cursor:pointer;
 float:left;
 margin-right:20px;
-border-radius:10px;
+border-radius:5px;
 padding:10px 10px 5px 10px;
 
 
 }
 .home-menu-item:hover{
-background-color:rgba(0,0,0,0.1);
+background-color:rgba(255,255,255,0.5);
 }
 
 
@@ -178,46 +223,37 @@ column-gap:40px;
  
 
 
-.top{
-float:left;
-  background-color:white;
- box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
-z-index:100;
-
-}
-
-
-
-
-
 .main{
 float:left;
 padding:50px 0px 0px 0px;
-background-color:rgba(0,0,0, 0.6);
+background-color:rgba(70,70,70, 1.0);
 z-index:1;
-width:100%
+width:100%;
 }
 
 .collections{
 width:80%;
 margin-left:10%;
-  font-family: 'Teko', sans-serif;
+font-family: 'Teko', sans-serif;
+font-weight: 100;
 
 }
 .grouping-select span.active {
   font-weight: 300;
+  color:rgb(150, 240, 255);
  
 }
 
 .grouping-select{
   font-family: 'Teko', sans-serif;
-margin-top:00px;
+  font-size:25px;
+margin-top:0px;
 color:white;
 }
 
 
 .group {
-  margin-top: 3rem;
+  margin-top: 2rem;
   color:white;
   font-size:20px;
 }
@@ -228,6 +264,7 @@ color:white;
   margin-right: -0.5rem;
 
   .teaser {
+   transition: all .2s ease-in-out;
     width: calc(33.33% - 0.0rem);
     margin: 0 0.0rem 0.0rem 0;
     box-sizing: border-box;
