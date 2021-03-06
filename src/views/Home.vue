@@ -127,6 +127,7 @@ export default {
 
 .top{
 float:left;
+width:100%;
 background-color:rgba(255,255,255,0.7);
 box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
 z-index:100;
@@ -273,7 +274,7 @@ color:white;
       width: calc(50% - 1.0rem);
     }
 	
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 900px) {
       width: 100%;
     }
   }
