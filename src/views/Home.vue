@@ -5,7 +5,7 @@
 		 	<div class="journalheader">
      	   		<img src="/biccs_2021.jpg" />
      	  	  	<div class="title">{{ journal.title }}</div>		
-			<div class="home-menu"><div class="home-menu-item">About</div><div class="home-menu-item">Contact</div>
+			<div class="home-menu"><div class="home-menu-item">About BICCS</div><div class="home-menu-item">Contact</div>
 			</div>
  			   	<div class="journalpresentation" v-html="parseMarkdown(journal.presentation)" />  
   
